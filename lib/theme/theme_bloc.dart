@@ -13,7 +13,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
         ThemeState stateToYield =
             (state == LightThemeState()) ? DarkThemeState() : LightThemeState();
         yield stateToYield;
-        print("state yielded - $stateToYield");
+        // print("state yielded - $stateToYield");
     }
   }
 }

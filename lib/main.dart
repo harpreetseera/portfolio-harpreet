@@ -5,7 +5,9 @@ import 'package:portfolio_harpreet/theme/theme_bloc.dart';
 import 'package:portfolio_harpreet/theme/theme_state.dart';
 import 'package:portfolio_harpreet/ui/screens/home_page.dart';
 
-void main() => runApp(MyPortFolioApp());
+void main() {
+  return runApp(MyPortFolioApp());
+}
 
 class MyPortFolioApp extends StatelessWidget {
   @override
@@ -15,6 +17,7 @@ class MyPortFolioApp extends StatelessWidget {
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, themeState) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             theme: themeState == DarkThemeState()
                 ? ThemeData.dark()
                 : ThemeData.light(),
