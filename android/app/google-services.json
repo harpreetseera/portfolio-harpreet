@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "683273477530",
+    "firebase_url": "https://portfolioharpreet.firebaseio.com",
+    "project_id": "portfolioharpreet",
+    "storage_bucket": "portfolioharpreet.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:683273477530:android:e9a28ddec62074e7e92e23",
+        "android_client_info": {
+          "package_name": "com.example.portfolio_harpreet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "683273477530-36kva4kc0i3nd8jrjsf978f9a8n67gf6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMddA9axmwiXJ9UmPuxcvgrSbI26NDHEk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "683273477530-36kva4kc0i3nd8jrjsf978f9a8n67gf6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

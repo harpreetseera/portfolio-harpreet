@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:portfolio_harpreet/theme/theme_bloc.dart';
@@ -16,6 +17,13 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
+    // Firestore.instance
+    //     .collection("app_config")
+    //     .document("user-detail")
+    //     .setData({
+    //   'age': 'hss',
+    // });
+
     return Scaffold(
       // appBar: AppBar(
       //   title: Text("Harpreet's PortFolio"),
@@ -32,6 +40,11 @@ class _HomepageState extends State<Homepage> {
       //     ),
       //   ],
       // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          
+        },
+      ),
       body: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, themeState) => Container(
             color: themeState == LightThemeState()
@@ -92,7 +105,7 @@ class _HomepageState extends State<Homepage> {
                                 child: Card(
                                   color: themeState == LightThemeState()
                                       ? Colors.white.withOpacity(0.7)
-                                      : Colors.grey[800],
+                                      : Colors.grey[800].withOpacity(0.7),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(15))),
@@ -113,12 +126,33 @@ class _HomepageState extends State<Homepage> {
                                           ),
                                         ),
                                       ),
+                                      StreamBuilder<DocumentSnapshot>(
+                                          stream: Firestore.instance
+                                              .collection("app_config")
+                                              .document("user-detail")
+                                              .snapshots(),
+                                          builder: (context, asyncSnapshot) {
+                                            return Text(
+                                              asyncSnapshot
+                                                  .data['greeting_title'],
+                                              style: TextStyle(fontSize: 24),
+                                            );
+                                          }),
                                       Padding(
                                         padding: const EdgeInsets.all(16.0),
-                                        child: Text(
-                                          "Hi..!\n\n I am Harpreet - A Flutter and Android enthusiast, Passionate for developing apps that solve problem, be it a minor or major.",
-                                          textAlign: TextAlign.center,
-                                        ),
+                                        child: StreamBuilder<DocumentSnapshot>(
+                                            stream: Firestore.instance
+                                                .collection("app_config")
+                                                .document("user-detail")
+                                                .snapshots(),
+                                            builder: (context, asyncSnapshot) {
+                                              return Text(
+                                                asyncSnapshot
+                                                    .data['description'],
+                                                style: TextStyle(fontSize: 16),
+                                                textAlign: TextAlign.center,
+                                              );
+                                            }),
                                       )
                                     ],
                                   ),
@@ -133,113 +167,29 @@ class _HomepageState extends State<Homepage> {
                                         BorderRadius.all(Radius.circular(15))),
                                 child: Text("Project Line UP"),
                               ),
-                               Padding(
-                                padding: const EdgeInsets.all(32.0),
-                                child: Card(
-                                  color: themeState == LightThemeState()
-                                      ? Colors.white.withOpacity(0.7)
-                                      : Colors.grey[800],
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(15))),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.all(24.0),
-                                        child: new Container(
-                                          width: 100.0,
-                                          height: 100.0,
-                                          decoration: new BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: new DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: new NetworkImage(
-                                                  "https://www.sentinelassam.com/wp-content/uploads/2019/05/dil.jpg"),
-                                            ),
-                                          ),
-                                        ),
+                              Card(
+                                color: themeState == LightThemeState()
+                                    ? Colors.white.withOpacity(0.7)
+                                    : Colors.grey[800],
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15))),
+                                child: ListTile(
+                                  leading: Container(
+                                    width: 60.0,
+                                    // height: 100.0,
+                                    decoration: new BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: new DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: new NetworkImage(
+                                            "https://www.sentinelassam.com/wp-content/uploads/2019/05/dil.jpg"),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(16.0),
-                                        child: Text(
-                                          "Hi..!\n\n I am Harpreet - A Flutter and Android enthusiast, Passionate for developing apps that solve problem, be it a minor or major.",
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      )
-                                    ],
+                                    ),
                                   ),
-                                ),
-                              ), Padding(
-                                padding: const EdgeInsets.all(32.0),
-                                child: Card(
-                                  color: themeState == LightThemeState()
-                                      ? Colors.white.withOpacity(0.7)
-                                      : Colors.grey[800],
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(15))),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.all(24.0),
-                                        child: new Container(
-                                          width: 100.0,
-                                          height: 100.0,
-                                          decoration: new BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: new DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: new NetworkImage(
-                                                  "https://www.sentinelassam.com/wp-content/uploads/2019/05/dil.jpg"),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(16.0),
-                                        child: Text(
-                                          "Hi..!\n\n I am Harpreet - A Flutter and Android enthusiast, Passionate for developing apps that solve problem, be it a minor or major.",
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ), Padding(
-                                padding: const EdgeInsets.all(32.0),
-                                child: Card(
-                                  color: themeState == LightThemeState()
-                                      ? Colors.white.withOpacity(0.7)
-                                      : Colors.grey[800],
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(15))),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.all(24.0),
-                                        child: new Container(
-                                          width: 100.0,
-                                          height: 100.0,
-                                          decoration: new BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: new DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: new NetworkImage(
-                                                  "https://www.sentinelassam.com/wp-content/uploads/2019/05/dil.jpg"),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(16.0),
-                                        child: Text(
-                                          "Hi..!\n\n I am Harpreet - A Flutter and Android enthusiast, Passionate for developing apps that solve problem, be it a minor or major.",
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                                  title: Text("Project Name"),
+                                  subtitle: Text("Project Subtitle"),
+                                  trailing: Icon(Icons.arrow_forward_ios),
                                 ),
                               ),
                             ],
