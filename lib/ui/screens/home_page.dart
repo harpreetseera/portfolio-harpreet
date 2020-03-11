@@ -19,12 +19,12 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-
   @override
   void initState() {
     super.initState();
     BlocProvider.of<HomePageBloc>(context).add(LoadImageEvent());
   }
+
   @override
   Widget build(BuildContext context) {
     // Firestore.instance
@@ -152,7 +152,8 @@ class _HomepageState extends State<Homepage> {
                                           builder: (context, asyncSnapshot) {
                                             return Text(
                                               asyncSnapshot
-                                                  .data['greeting_title'],
+                                                      .data['greeting_title'] ??
+                                                  "Hello",
                                               style: TextStyle(fontSize: 24),
                                             );
                                           }),
@@ -192,23 +193,45 @@ class _HomepageState extends State<Homepage> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(15))),
-                                child: ListTile(
-                                  leading: Container(
-                                    width: 60.0,
-                                    // height: 100.0,
-                                    decoration: new BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: new DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: new NetworkImage(
-                                            "https://www.sentinelassam.com/wp-content/uploads/2019/05/dil.jpg"),
-                                      ),
-                                    ),
-                                  ),
-                                  title: Text("Project Name"),
-                                  subtitle: Text("Project Subtitle"),
-                                  trailing: Icon(Icons.arrow_forward_ios),
-                                ),
+                                child: StreamBuilder<QuerySnapshot>(
+                                    stream: Firestore.instance
+                                        .collection("projects")
+                                        .snapshots(),
+                                    builder: (context, snapshotDocumentList) {
+                                      return snapshotDocumentList.hasData
+                                          ? ListView.builder(
+                                              shrinkWrap: true,
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                              itemCount: snapshotDocumentList
+                                                  .data.documents.length,
+                                              itemBuilder: (context, index) {
+                                                return ListTile(
+                                                  leading: Icon(Icons
+                                                      .airline_seat_flat_angled),
+                                                  // Container(
+                                                  //   width: 60.0,
+                                                  //   // height: 100.0,
+                                                  //   decoration: new BoxDecoration(
+                                                  //     shape: BoxShape.circle,
+                                                  //     image: new DecorationImage(
+                                                  //       fit: BoxFit.cover,
+                                                  //       image: new NetworkImage(
+                                                  //           "https://www.sentinelassam.com/wp-content/uploads/2019/05/dil.jpg"),
+                                                  //     ),
+                                                  //   ),
+                                                  // ),
+                                                  title: Text(snapshotDocumentList.data.documents.elementAt(index).data["project_name"]),
+                                                  subtitle:
+                                                      Text(snapshotDocumentList.data.documents.elementAt(index).data["project_small_description"]),
+                                                  trailing: Icon(
+                                                      Icons.arrow_forward_ios),
+                                                );
+                                              })
+                                          : snapshotDocumentList.hasError
+                                              ? Text(snapshotDocumentList.error)
+                                              : CircularProgressIndicator();
+                                    }),
                               ),
                             ],
                           ),
